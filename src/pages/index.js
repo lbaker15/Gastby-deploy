@@ -1,16 +1,33 @@
 import * as React from "react"
-import { Link } from "gatsby"
+import { Link, useStaticQuery } from "gatsby"
 import { StaticImage } from "gatsby-plugin-image"
 
 import Layout from "../components/layout"
 import Seo from "../components/seo"
+import { graphql, userStaticQuery } from 'gatsby';
+const query = graphql`
+  {
+    allContentfulInfo {
+      nodes {
+        id
+        text
+      }
+    }
+  }
+`
 
-const IndexPage = () => (
+const IndexPage = () => {
+  const data = useStaticQuery(query);
+  let nodes = data.allContentfulInfo.nodes;
+  console.log(nodes)
+  return (
   <Layout>
     <Seo title="Home" />
-    <h1>Hi people edit</h1>
-    <p>Welcome to your new Gatsby site.</p>
-    <p>Now go build something great.</p>
+    {nodes.map(x => {
+      return (
+        <h1>{x.text}</h1>
+      )
+    })}
     <StaticImage
       src="../images/gatsby-astronaut.png"
       width={300}
@@ -19,11 +36,12 @@ const IndexPage = () => (
       alt="A Gatsby astronaut"
       style={{ marginBottom: `1.45rem` }}
     />
-    <p>
+    {/* <p>
       <Link to="/page-2/">Go to page 2</Link> <br />
       <Link to="/using-typescript/">Go to "Using TypeScript"</Link>
-    </p>
+    </p> */}
   </Layout>
-)
+  )
+}
 
 export default IndexPage
