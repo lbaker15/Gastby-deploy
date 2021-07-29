@@ -1,47 +1,45 @@
 import * as React from "react"
-import { Link, useStaticQuery } from "gatsby"
+import { Link, useStaticQuery, StaticQuery, graphql } from "gatsby"
 import { StaticImage } from "gatsby-plugin-image"
+import Layout from "../components/layout";
+import Seo from "../components/seo";
+import SectionOneText from "../components/sectionOneText";
+import Image from "../components/image";
+import BlogQuery from "./blogQuery";
 
-import Layout from "../components/layout"
-import Seo from "../components/seo"
-import { graphql, userStaticQuery } from 'gatsby';
-const query = graphql`
+export const query = graphql`
   {
-    allContentfulInfo {
-      nodes {
-        id
-        text
+    contentfulSectionOne(children: {}) {
+      image {
+        file {
+          url
+          fileName
+          contentType
+        }
       }
     }
   }
 `
 
-const IndexPage = () => {
-  const data = useStaticQuery(query);
-  let nodes = data.allContentfulInfo.nodes;
-  console.log(nodes)
-  return (
-  <Layout>
-    <Seo title="Home" />
-    {nodes.map(x => {
-      return (
-        <h1>{x.text}</h1>
-      )
-    })}
-    <StaticImage
-      src="../images/gatsby-astronaut.png"
-      width={300}
-      quality={95}
-      formats={["AUTO", "WEBP", "AVIF"]}
-      alt="A Gatsby astronaut"
-      style={{ marginBottom: `1.45rem` }}
-    />
-    {/* <p>
-      <Link to="/page-2/">Go to page 2</Link> <br />
-      <Link to="/using-typescript/">Go to "Using TypeScript"</Link>
-    </p> */}
-  </Layout>
-  )
+
+class IndexPage extends React.Component {
+  render() {
+    return (
+    <Layout>
+      <Seo title="Home" />
+      <SectionOneText />
+      <StaticQuery
+        query={query}
+        render={data => <Image data={data}  />}
+      />
+      <BlogQuery />
+    </Layout>
+    )
+  }
 }
+    // {/* <p>
+    //   <Link to="/page-2/">Go to page 2</Link> <br />
+    //   <Link to="/using-typescript/">Go to "Using TypeScript"</Link>
+    // </p> */}
 
 export default IndexPage

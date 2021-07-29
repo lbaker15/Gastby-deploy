@@ -1,0 +1,15 @@
+#rich-text-body {
+
+}
+#rich-text-body h1 {
+    font-family: Manrope;
+    text-align: center;
+    font-size: clamp(30px, 5vw, 10vw);
+    margin-bottom: 15px;
+}
+
+#rich-text-body h3 {
+    font-family: Manrope;
+    text-align: center;
+    font-size: clamp(20px, 2vw, 10vw);
+}
